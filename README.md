@@ -11,18 +11,36 @@
 
 ## 安装
 
-这是一个 DSH profile 插件包。先克隆，再以本地包目录安装：
+这是一个标准的 DSH bundle 包（`dsh.bundle.patch`），不需要构建步骤，也没有运行时依赖。
+用 DSH 的 `plugin_manager` 安装，三种等价写法：
 
-```powershell
-git clone https://github.com/ZhaoHanshao/dsh-plugin-agent-terminal.git
-# 在 DSH 里用 plugin_manager 指向该目录：
-#   action: install_bundle
-#   target: <克隆出来的绝对路径>
+```text
+# 1) npm 注册表（发布到 npm 之后）
+action: install_bundle
+target: dsh-plugin-agent-terminal
+
+# 2) git 规格（无需发布即可安装，仍然走 npm 解析）
+action: install_bundle
+target: github:ZhaoHanshao/dsh-plugin-agent-terminal
+
+# 3) 本地目录（开发时可用，改代码即时生效）
+action: install_bundle
+target: <克隆出来的绝对路径>
+```
+
+命令行等价形式：
+
+```bash
+npm install dsh-plugin-agent-terminal          # 发布后
+npm install github:ZhaoHanshao/dsh-plugin-agent-terminal
 ```
 
 安装后刷新页面，会话头部右侧会出现终端按钮。
 
-要求：DSH（DeepSeek Harness）客户端；Windows 上已验证，POSIX 平台的探测逻辑同样适用。
+要求：DSH（DeepSeek Harness）客户端；Windows 上已在 `0.2.1-rc.3` 验证，POSIX 平台的
+探测逻辑同样适用。包内不声明 `engines.dsh`：DSH 当前为预发布版（`0.2.1-rc.3`），
+而 semver 规定预发布版本不满足 `>=0.2.0`、`^0.2.0` 甚至 `*`，写死版本范围反而会
+让安装被版本闸门拒绝。
 
 ## 界面位置
 
@@ -153,6 +171,19 @@ prompt: The shell tool runs bash (Niubash (niu.exe)). Write POSIX shell: ls, cp,
 - 切到 `niu.exe` 后模型侧工具确为 `bash`，描述含「NOT cmd.exe / NOT PowerShell」及替代命令表；`/diagnostics` 报 `promptRegistered=True`，段落文本正确
 - 重复分隔符路径（`D:\\\\App`）被规范化，`customPaths` 读取时自愈合并没有堆积
 - 未知终端返回 400；无令牌/错令牌返回 403
+- 以 `github:` 规格通过 `plugin_manager` 安装成功（非链接副本，`lib/` 与 `locale/` 齐全），安装后路由与客户端入口均正常
+
+## 发布到 npm
+
+包已就绪：无构建步骤、无依赖、`files` 覆盖全部运行时资源，`npm pack` 产出 9 个文件 / 27 kB。
+
+```bash
+npm login          # 首次需要，交互式
+npm publish        # 包名 dsh-plugin-agent-terminal，当前未被占用
+```
+
+发布后即可用 `install_bundle` 的 `target: dsh-plugin-agent-terminal` 安装。
+每次发版前建议先跑 `npm pack --dry-run` 核对文件清单。
 
 ## 已知限制
 
