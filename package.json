@@ -1,0 +1,59 @@
+{
+  "name": "dsh-plugin-agent-terminal",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Pick the terminal an agent runs its commands in, per conversation, independently of the agent mode. Ships cmd, PowerShell, Git Bash, WSL and custom shells with real verification, and tells the model the matching command dialect.",
+  "main": "./lib/index.js",
+  "exports": {
+    ".": {
+      "default": "./lib/index.js"
+    },
+    "./client": {
+      "default": "./lib/client.js"
+    },
+    "./locale/*.json": "./locale/*.json",
+    "./icon": "./icon.svg",
+    "./package.json": "./package.json",
+    "./cordis.patch.yml": "./cordis.patch.yml"
+  },
+  "files": [
+    "lib/",
+    "locale/*.json",
+    "icon.svg",
+    "cordis.patch.yml",
+    "README.md",
+    "LICENSE"
+  ],
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "inject": [
+        "@deepseek-ai/dsh-client-ui-sidebar"
+      ]
+    }
+  },
+  "keywords": [
+    "dsh",
+    "dsh-plugin",
+    "deepseek-harness",
+    "terminal",
+    "shell",
+    "cmd",
+    "powershell",
+    "bash",
+    "wsl"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ZhaoHanshao/dsh-plugin-agent-terminal.git"
+  },
+  "homepage": "https://github.com/ZhaoHanshao/dsh-plugin-agent-terminal#readme",
+  "bugs": {
+    "url": "https://github.com/ZhaoHanshao/dsh-plugin-agent-terminal/issues"
+  },
+  "author": "ZhaoShaohan",
+  "license": "MIT"
+}

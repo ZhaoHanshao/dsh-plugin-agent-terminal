@@ -1,0 +1,7 @@
+- insert:
+    - id: agent-shell
+      name: 'dsh-plugin-agent-terminal'
+      config:
+        timeoutMs: 120000
+        maxOutputBytes: 262144
+        verify: true

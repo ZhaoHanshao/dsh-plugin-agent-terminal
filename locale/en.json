@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "Terminal",
+    "description": "Choose the terminal the agent runs commands in for the current conversation, independent of the mode."
+  }
+}
